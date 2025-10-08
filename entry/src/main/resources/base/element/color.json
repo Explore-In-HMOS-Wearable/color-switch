@@ -1,0 +1,17 @@
+{
+  "color": [
+	{
+	  "name": "start_window_background",
+	  "value": "#FFFFFF"
+	},
+	{
+	 "name": "base_background_gradient_end",
+	 "value": "#FF0B1F3B"
+	},
+	{
+	 "name": "base_background_gradient_start",
+	 "value": "#FF00050A"
+	}
+
+  ]
+}
