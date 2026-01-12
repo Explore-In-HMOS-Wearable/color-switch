@@ -6,7 +6,6 @@ import { UnlockPrefs, UnlockStatus } from '../utils/UnlockPrefs';
 import { common } from '@kit.AbilityKit';
 import { BaseViewModel } from '../viewmodel/BaseViewModel';
 
-@Entry
 @Component
 export struct TrainingPage {
   private wearableSwiperController: ArcSwiperController = new ArcSwiperController()
@@ -22,23 +21,18 @@ export struct TrainingPage {
   @State currentQuiz: number = 0
   @State correctCount: number = 0
   @State trainingPassed: boolean = false
-  @State titleText: string = ''
-  @State ruleText: string = ''
   @State passNeed: number = 2
   @State slides: SlideDef[] = []
   @State quizData: QuizItem[] = []
-  @StorageLink('context') context: Context | undefined =  AppStorage.get('context')
+  @StorageLink('context') context: Context | undefined = AppStorage.get('context')
 
   aboutToAppear(): void {
-    const all: UnlockStatus = UnlockPrefs.getAll(getContext(this) as common.Context)
-    this.unlockedEasy = all.unlocked_easy
-    this.unlockedMedium = all.unlocked_medium
-    this.unlockedHard = all.unlocked_hard
-    this.unlockedExpert = all.unlocked_expert
-    console.error('tag easy', this.unlockedEasy + '')
+    const all: UnlockStatus = UnlockPrefs.getAll(this.context as common.Context)
+    this.unlockedEasy = all.unlockedEasy
+    this.unlockedMedium = all.unlockedMedium
+    this.unlockedHard = all.unlockedHard
+    this.unlockedExpert = all.unlockedExpert
     const copy: ModeCopy = TrainingViewModel.load(this.selectedMode)
-    this.titleText = copy.title
-    this.ruleText = copy.rule
     this.passNeed = copy.passNeed
     this.slides = copy.slides
     this.quizData = copy.quiz
@@ -86,13 +80,7 @@ export struct TrainingPage {
       this.unlockedExpert = true
       UnlockPrefs.setUnlocked(ctx, Mode.EXPERT, true)
     }
-
-    let easy = UnlockPrefs.isUnlocked(ctx, Mode.EASY)
-    console.error('tag fonk', easy+'')
-
-
-  } /* @Builder IntroSlide() { Column({ space: 10 }) { Text(this.titleText).fontSize(20).fontWeight(FontWeight.Bold) Text(this.ruleText).fontSize(14).opacity(0.8).textAlign(TextAlign.Center) } .width('95%').height('95%').padding(12) .alignItems(HorizontalAlign.Center) .justifyContent(FlexAlign.Center) }*/
-
+  }
   @Builder
   SlideView(s: SlideDef) {
     if (s.type === SlideType.TEXT) {
@@ -122,7 +110,7 @@ export struct TrainingPage {
       .padding(12)
       .alignItems(HorizontalAlign.Center)
       .justifyContent(FlexAlign.Center)
-    } /* Column({ space: 10 }) { Text(s.word ? s.word : '') .fontSize(28).fontWeight(FontWeight.Bold) .fontColor(s.fontColor ? s.fontColor : Color.White) Text('Wrong: ' + (s.wrong ? s.wrong : '') + '\nCorrect: ' + (s.correct ? s.correct : '')) .fontSize(14).opacity(0.8).textAlign(TextAlign.Center) } .width('95%').height('95%').padding(12) .alignItems(HorizontalAlign.Center) .justifyContent(FlexAlign.Center)*/
+    }
   }
 
   @Builder
@@ -144,7 +132,7 @@ export struct TrainingPage {
       ArcSwiper(this.wearableSwiperController) {
         ForEach(this.slides, (s: SlideDef, i: number) => {
           this.SlideView(s)
-        }, (s: SlideDef, i: number) => 'slide-' + i.toString())
+        }, (item: string, index: number) => item)
         this.QuizIntroSlide()
       }.index(this.swiperIndex).visibility(this.showQuiz || this.showResult ? Visibility.None : Visibility.Visible)
 

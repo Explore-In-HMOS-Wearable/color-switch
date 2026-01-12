@@ -1,4 +1,5 @@
 import { QuizItem } from '../model/TrainingTypes'
+import { cryptoFramework } from '@kit.CryptoArchitectureKit';
 
 export enum Mode {
   EASY = 0,
@@ -11,26 +12,44 @@ export class GameRepo {
   private static readonly COLOR_NAMES: string[] = ['RED', 'BLUE', 'GREEN', 'YELLOW']
 
   private static colorFromName(name: string): Color {
-    if (name === 'RED') return Color.Red
-    if (name === 'BLUE') return Color.Blue
-    if (name === 'GREEN') return Color.Green
-    if (name === 'YELLOW') return Color.Yellow
+    if (name === 'RED') {
+      return Color.Red
+    }
+    if (name === 'BLUE') {
+      return Color.Blue
+    }
+    if (name === 'GREEN') {
+      return Color.Green
+    }
+    if (name === 'YELLOW') {
+      return Color.Yellow
+    }
     return Color.White
   }
 
   private static pickOther(except: string): string {
     const arr: string[] = GameRepo.COLOR_NAMES.filter(n => n !== except)
-    const i: number = Math.floor(Math.random() * arr.length)
+    const secureRandom = cryptoFramework.createRandom()
+
+    const randomByte = secureRandom.generateRandomSync(1).data[0]
+    const i: number = randomByte % arr.length
+
     return arr[i]
   }
 
   private static randColorName(): string {
-    const i: number = Math.floor(Math.random() * GameRepo.COLOR_NAMES.length)
-    return GameRepo.COLOR_NAMES[i]
+    const secureRandom = cryptoFramework.createRandom();
+    const randomByte = secureRandom.generateRandomSync(1).data[0];
+    const i: number = randomByte % GameRepo.COLOR_NAMES.length;
+
+    return GameRepo.COLOR_NAMES[i];
   }
 
   private static shuffle2(a: string, b: string): string[] {
-    return Math.random() < 0.5 ? [a, b] : [b, a]
+    const secureRandom = cryptoFramework.createRandom();
+    const randomByte = secureRandom.generateRandomSync(1).data[0];
+
+    return randomByte < 128 ? [a, b] : [b, a];
   }
 
   static next(mode: number): QuizItem {
@@ -53,7 +72,7 @@ export class GameRepo {
       const correct: string = anyFont
       const wrong: string = GameRepo.pickOther(correct)
       return {
-        word, // ekranda bir kelime dursun
+        word,
         fontColor: anyFontColor,
         options: GameRepo.shuffle2(correct, wrong),
         correct
@@ -71,7 +90,10 @@ export class GameRepo {
       }
     }
 
-    const isMeaning: boolean = Math.random() < 0.5
+    const secureRandom = cryptoFramework.createRandom();
+    const randomByte = secureRandom.generateRandomSync(1).data[0];
+    const isMeaning: boolean = randomByte < 128;
+
     if (isMeaning) {
       const correct: string = word
       const wrong: string = GameRepo.pickOther(correct)
@@ -94,16 +116,28 @@ export class GameRepo {
   }
 
   static ruleText(mode: number): string {
-    if (mode === Mode.EASY)   return 'Select the MEANING of the word'
-    if (mode === Mode.MEDIUM) return 'Select the FONT COLOR'
-    if (mode === Mode.HARD)   return 'Pick the option that is NOT the meaning'
+    if (mode === Mode.EASY) {
+      return 'Select the MEANING of the word'
+    }
+    if (mode === Mode.MEDIUM) {
+      return 'Select the FONT COLOR'
+    }
+    if (mode === Mode.HARD) {
+      return 'Pick the option that is NOT the meaning'
+    }
     return 'Follow the rule (mixed)' // Expert
   }
 
   static modeTitle(mode: number): string {
-    if (mode === Mode.EASY)   return 'Easy'
-    if (mode === Mode.MEDIUM) return 'Medium'
-    if (mode === Mode.HARD)   return 'Hard'
+    if (mode === Mode.EASY) {
+      return 'Easy'
+    }
+    if (mode === Mode.MEDIUM) {
+      return 'Medium'
+    }
+    if (mode === Mode.HARD) {
+      return 'Hard'
+    }
     return 'Expert'
   }
 }

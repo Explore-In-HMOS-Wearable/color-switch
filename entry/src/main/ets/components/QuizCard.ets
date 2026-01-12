@@ -1,4 +1,4 @@
-import { QuizItem } from "../model/TrainingTypes"
+import { QuizItem } from '../model/TrainingTypes'
 
 @Component
 export struct QuizCard {
@@ -13,10 +13,18 @@ export struct QuizCard {
   @Link showResult: boolean
 
   private colorFromName(name: string): Color {
-    if (name === 'RED') return Color.Red
-    if (name === 'BLUE') return Color.Blue
-    if (name === 'GREEN') return Color.Green
-    if (name === 'YELLOW') return Color.Yellow
+    if (name === 'RED') {
+      return Color.Red
+    }
+    if (name === 'BLUE') {
+      return Color.Blue
+    }
+    if (name === 'GREEN') {
+      return Color.Green
+    }
+    if (name === 'YELLOW') {
+      return Color.Yellow
+    }
     return Color.Black
   }
 
@@ -37,7 +45,7 @@ export struct QuizCard {
 
   build() {
     Column({ space: 12 }) {
-      Text('Quiz ' + (this.index + 1).toString() + ' / ' + this.total.toString())
+      Text(`Quiz  ${(this.index + 1).toString()} / ${this.total.toString()}`)
         .fontSize(16).fontWeight(FontWeight.Medium)
 
       Row({ space: 8 }) {
@@ -56,17 +64,18 @@ export struct QuizCard {
       }
 
       Row({ space: 16 }) {
-        ForEach(this.quiz.options, (opt: string, i: number) => {
+        ForEach(this.quiz.options, (opt: string, index: number) => {
           Button(opt)
-            .width(80).height(80)
+            .width(80)
+            .height(80)
             .borderRadius(22)
             .backgroundColor(this.colorFromName(opt))
             .onClick(() => this.answer(opt))
-        }, (opt: string, i: number) => 'q' + this.index.toString() + '-' + i.toString() + '-' + opt)
+        }, (item: string, index: number) => item)
       }
       .justifyContent(FlexAlign.Center)
 
-      Text('Correct: ' + this.correctCount.toString())
+      Text(`Correct:  ${this.correctCount.toString()}`)
         .fontSize(12).opacity(0.6)
     }
     .justifyContent(FlexAlign.Center)

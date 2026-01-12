@@ -6,9 +6,9 @@ export const MODES: string[] = [
 ];
 
 
-export enum MODES_ENUMS{
+export enum MODES_ENUMS {
   Easy = 'Easy',
-  Medium =  'Medium',
+  Medium = 'Medium',
   Hard = 'Hard',
   Expert = 'Expert'
 }

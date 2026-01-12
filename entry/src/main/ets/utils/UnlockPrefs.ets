@@ -6,11 +6,16 @@ const FILE_NAME = 'unlockStore';
 
 function keyForMode(mode: Mode): string {
   switch (mode) {
-    case Mode.EASY: return 'unlocked_easy';
-    case Mode.MEDIUM: return 'unlocked_medium';
-    case Mode.HARD: return 'unlocked_hard';
-    case Mode.EXPERT: return 'unlocked_expert';
-    default: return 'unlocked_unknown';
+    case Mode.EASY:
+      return 'unlocked_easy';
+    case Mode.MEDIUM:
+      return 'unlocked_medium';
+    case Mode.HARD:
+      return 'unlocked_hard';
+    case Mode.EXPERT:
+      return 'unlocked_expert';
+    default:
+      return 'unlocked_unknown';
   }
 }
 
@@ -46,17 +51,17 @@ export class UnlockPrefs {
 
   static getAll(ctx: common.Context): UnlockStatus {
     return {
-      unlocked_easy: UnlockPrefs.isUnlocked(ctx, Mode.EASY),
-      unlocked_medium: UnlockPrefs.isUnlocked(ctx, Mode.MEDIUM),
-      unlocked_hard: UnlockPrefs.isUnlocked(ctx, Mode.HARD),
-      unlocked_expert: UnlockPrefs.isUnlocked(ctx, Mode.EXPERT),
+      unlockedEasy: UnlockPrefs.isUnlocked(ctx, Mode.EASY),
+      unlockedMedium: UnlockPrefs.isUnlocked(ctx, Mode.MEDIUM),
+      unlockedHard: UnlockPrefs.isUnlocked(ctx, Mode.HARD),
+      unlockedExpert: UnlockPrefs.isUnlocked(ctx, Mode.EXPERT)
     };
   }
 }
 
 export interface UnlockStatus {
-  unlocked_easy: boolean
-  unlocked_medium: boolean
-  unlocked_hard: boolean
-  unlocked_expert: boolean
+  unlockedEasy: boolean
+  unlockedMedium: boolean
+  unlockedHard: boolean
+  unlockedExpert: boolean
 }

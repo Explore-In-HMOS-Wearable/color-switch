@@ -12,6 +12,7 @@ Users can select a difficulty mode (Easy, Medium, Hard, Expert), complete timed 
   <img src="./screenshots/2.png" width="24%">
   <img src="./screenshots/3.png" width="24%">
   <img src="./screenshots/4.png" width="24%">
+
 </div>
 
 
